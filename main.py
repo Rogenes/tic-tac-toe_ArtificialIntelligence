@@ -169,25 +169,31 @@ def play(tree, playingGame):
 			showBoard(playingGame)
 			print(f'Você perdeu.')
 			time.sleep(1)
-			print(f'Hahahahahaha.')
-			time.sleep(1)
 			print(f'Que pena...')
 			time.sleep(1)
 			print(f'Triste, não?...')
 			time.sleep(1)
-			print(f'Triste...\n')
+			print(f'Tente de novo... Uma hora você consegue.')
+			time.sleep(1)
+			print(f'Tenho certeza!')
+			time.sleep(1)
+			print(f'...')
+			time.sleep(1)
 			break
 		elif(result(playingGame)=='draw'):
 			showBoard(playingGame)
 			print(f'Você empatou.')
 			time.sleep(1)
-			print(f'Hahahahahaha.')
-			time.sleep(1)
 			print(f'Que pena...')
 			time.sleep(1)
 			print(f'Triste, não?...')
 			time.sleep(1)
-			print(f'Triste...\n')
+			print(f'Tente de novo... Uma hora você consegue.')
+			time.sleep(1)
+			print(f'Tenho certeza!')
+			time.sleep(1)
+			print(f'...')
+			time.sleep(1)
 			break
 
 		if(lalala==False):
@@ -206,26 +212,29 @@ def play(tree, playingGame):
 				# for x in tree._node:
 				# 	print(f'{x._matrix}')
 				# 	print(f'{x._value}\n\n')
-				# pause = input('pausado')
+				# pause = input('continue')
 
-				jump=0
+				c = []
+				c.append(1)
+				cNode = []
+				d = []
+				d.append(0)
+				dNode = []
+
 				for x in tree._node:
-					c = []
-					c.append(1)
 					if( np.array_equal(x._value, c) ):
-						tree=x
-						playingGame=x._matrix
-						jump+=1
-						break
-				if(jump<1):
-					for x in tree._node:
-						d = []
-						d.append(0)
-						if( np.array_equal(x._value, d) ):
-							tree=x
-							playingGame=x._matrix
-							break
-
+						cNode.append(x)
+					elif( np.array_equal(x._value, d) ):
+						dNode.append(x)
+				if(cNode):
+					#choose between all #1 avaliable values
+					tree = cNode[  (random.randint (0, (len(cNode)-1)))  ]
+					playingGame=tree._matrix
+				else:
+					#choose between all #0 avaliable values
+					tree = dNode[ (random.randint(0, (len(dNode)-1))) ]
+					playingGame=tree._matrix
+					
 		elif(turn==-1):
 			round+=1
 			print(f'Sua vez')
@@ -262,9 +271,6 @@ if __name__ == '__main__':
 	info = np.array([['1','2','3'], ['4','5','6'], ['7','8','9']]) 
 	print(f'Este é o quadro de jogo, com suas respectivas posições:\n')
 	showBoard(info)
-	pause = input('\nAperete enter para continuar...\n')
-	showBoard(playingGame)
-
-	
+	pause = input('\nAperte enter para continuar...\n')
 
 	play(tree.next(0),playingGame)
