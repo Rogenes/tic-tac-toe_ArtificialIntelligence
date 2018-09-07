@@ -160,18 +160,42 @@ def play(tree, playingGame):
 	round = 0
 	turn = -1
 	lalala = True
-	print(f'Neste jogo o seu oponente sempre comeca. Nem adianta reclamar...\n')
-	print(tree._matrix)
-	time.sleep(2)
 
-	while not (result(playingGame) == 'player1' or result(playingGame) == 'player2' or result(playingGame) == 'draw'):
+	while True:
 		turn*=-1
 		os.system('cls' if os.name == 'nt' else 'clear')
+		
+		if(result(playingGame)=='player1'):
+			showBoard(playingGame)
+			print(f'Você perdeu.')
+			time.sleep(1)
+			print(f'Hahahahahaha.')
+			time.sleep(1)
+			print(f'Que pena...')
+			time.sleep(1)
+			print(f'Triste, não?...')
+			time.sleep(1)
+			print(f'Triste...\n')
+			break
+		elif(result(playingGame)=='draw'):
+			showBoard(playingGame)
+			print(f'Você empatou.')
+			time.sleep(1)
+			print(f'Hahahahahaha.')
+			time.sleep(1)
+			print(f'Que pena...')
+			time.sleep(1)
+			print(f'Triste, não?...')
+			time.sleep(1)
+			print(f'Triste...\n')
+			break
+
 		if(lalala==False):
-			print(f'|-----TIC-TAC-TOE-----|\n\n{np.matrix(playingGame)}\n\n')
+			showBoard(playingGame)
 
 		if(turn==1):
 			print(f'\nVez do Seu oponente, aguarde...')
+			time.sleep(2)
 			if(lalala==True):
 				round+=1
 				lalala=False
@@ -190,7 +214,6 @@ def play(tree, playingGame):
 					c.append(1)
 					if( np.array_equal(x._value, c) ):
 						tree=x
-						time.sleep(5)
 						playingGame=x._matrix
 						jump+=1
 						break
@@ -202,34 +225,46 @@ def play(tree, playingGame):
 							tree=x
 							playingGame=x._matrix
 							break
-			time.sleep(3)
 
 		elif(turn==-1):
 			round+=1
 			print(f'Sua vez')
 			while True:
-				position = int(input("Entre com a posicao que deseja jogar:"))
+				position = input("Entre com a posicao que deseja jogar:")
 
-				if(position>9 or position<1 or checkPosition(position,playingGame)==False):
+				if(not position.isdigit() or int(position)>9 or int(position)<1 or not checkPosition(int(position),playingGame)):
 					print(f'Posicao invalida, tente novamente.')
 				else:
 					break
 			for x in tree._node:
 				if( np.array_equal(x._matrix, playingGame) ):
 					tree=x
-			time.sleep(2)	
 
+def showBoard(matrix):
+	print(f'Game:\n')
+	
+	print ('  ' + matrix[0][0] + '  |  ' +matrix[0][1]+ '  |  ' +matrix[0][2] )
+	print ('-----------------')
+	print ('  ' + matrix[1][0] + '  |  ' +matrix[1][1]+ '  |  ' +matrix[1][2] )
+	print ('-----------------')
+	print ('  ' + matrix[2][0] + '  |  ' +matrix[2][1]+ '  |  ' +matrix[2][2] )
+	print('\n\n')
 
 if __name__ == '__main__':
-	print(f'|-----INICIANDO SEU JOGO-----|\n\n\n')
+	print(f'\n\n|-----INICIANDO SEU JOGO-----|\n\n')
 	gameCopy = game.copy()
 	tree = node('x',gameCopy)
 	turn  = 'x' #first step computer, x = max, o = min
 	game[random.randint(0, 2)][random.randint(0,2)] = 'x'
 	playingGame = game.copy()
-
-	print(tree._matrix)
-
 	createChild(turn, game, tree)
+	os.system('cls' if os.name == 'nt' else 'clear')
+	info = np.array([['1','2','3'], ['4','5','6'], ['7','8','9']]) 
+	print(f'Este é o quadro de jogo, com suas respectivas posições:\n')
+	showBoard(info)
+	pause = input('\nAperete enter para continuar...\n')
+	showBoard(playingGame)
+
+	
 
 	play(tree.next(0),playingGame)
